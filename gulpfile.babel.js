@@ -8,11 +8,12 @@ var sources = {
 
 gulp.task('scripts', function() {
    return gulp.src(sources.scripts)
-       .pipe($.sourcemaps.init())
-       .pipe($.babel({ presets: ['es2015'] }))
-       .pipe($.concat('main.js'))
-       .pipe($.sourcemaps.write('.'))
-       .pipe(gulp.dest('dist'));
+        .pipe($.plumber())
+        .pipe($.sourcemaps.init())
+        .pipe($.babel({ presets: ['es2015'] }))
+        .pipe($.concat('main.js'))
+        .pipe($.sourcemaps.write('.'))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('templates', function() {
