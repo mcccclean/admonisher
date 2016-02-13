@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var express = require('express');
 
 var sources = {
     scripts: 'lib/**/*.js',
@@ -29,6 +30,15 @@ gulp.task('watch', function(done) {
     gulp.watch(sources.templates, ['templates']);
 });
 
-gulp.task('default', ['scripts', 'templates'], function() {
-    
+gulp.task('build', ['scripts', 'templates'], function() {
+
 });
+
+gulp.task('serve', ['default'], function(done) {
+    var app = express();
+    app.use(express.static('dist'));
+    var port = 3000;
+    app.listen(port, function() { console.log('Listening on localhost:' + port); });
+});
+
+gulp.task('default', ['build'], function() { });
