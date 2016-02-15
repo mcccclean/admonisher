@@ -7,8 +7,6 @@ var babelify = require('babelify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var globby = require('globby');
-var through = require('through2');
 
 var sources = { 
     scripts: 'lib/**/*.js', 
