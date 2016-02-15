@@ -80,6 +80,15 @@ gulp.task('serve', ['default'], function(done) {
     app.listen(port, function() { console.log('Listening on localhost:' + port); });
 });
 
+gulp.task('deploy', ['build'], function() {
+    return gulp.src('dist/**')
+        .pipe($.rsync({
+            hostname: 'piecewise',
+            destination: 'tommclean.com/public/admonisher',
+            root: 'dist'
+        }));
+});
+
 gulp.task('live', ['watch', 'serve'], function() {});
 
 gulp.task('default', ['build'], function() { });
