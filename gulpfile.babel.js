@@ -31,7 +31,7 @@ function compile(watch) {
                 );
                 this.emit('end');
             })
-            .pipe($.duration('rebuilding'))
+            .pipe($.duration('Building'))
             .pipe(source('main.js'))
             .pipe(buffer())
             .pipe($.sourcemaps.init({ loadMaps: true }))
@@ -81,5 +81,7 @@ gulp.task('serve', ['default'], function(done) {
     var port = 3000;
     app.listen(port, function() { console.log('Listening on localhost:' + port); });
 });
+
+gulp.task('live', ['watch', 'serve'], function() {});
 
 gulp.task('default', ['build'], function() { });
