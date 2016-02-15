@@ -19,9 +19,19 @@ function compile(watch) {
     var bundler = browserify('./lib/main.js', { debug: true })
                 .transform(babelify, { presets: ['es2015'] } );
 
-    function rebundle() {
+    function rebundle(bundler) {
         return bundler.bundle()
-            .on('error', function(err) { console.error(err); this.emit('end'); })
+            .on('error', function(err) {
+                var msg = err.message.replace(new RegExp(err.filename + ':', 'g'), '');
+                $.util.log(
+                    $.util.colors.red(err.filename),
+                    $.util.colors.yellow(err.loc.line + ':' + err.loc.column),
+                    '\n** \t',
+                    msg
+                );
+                this.emit('end');
+            })
+            .pipe($.duration('rebuilding'))
             .pipe(source('main.js'))
             .pipe(buffer())
             .pipe($.sourcemaps.init({ loadMaps: true }))
@@ -31,12 +41,12 @@ function compile(watch) {
 
     if (watch) {
         var watcher = watchify(bundler);
+        rebundle(watcher);
         return watcher.on('update', function() {
-            console.log('-> bundling...');
-            rebundle();
+            rebundle(watcher);
         });
     } else {
-        return rebundle();
+        return rebundle(bundler);
     }
 }
 
