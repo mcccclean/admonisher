@@ -21,9 +21,12 @@ function compile(watch) {
         return bundler.bundle()
             .on('error', function(err) {
                 var msg = err.message.replace(new RegExp(err.filename + ':', 'g'), '');
+                var linestr = '';
+                if(err.loc) {
+                 linestr = $.util.colors.yellow(err.loc.line + ':' + err.loc.column);
+                }
                 $.util.log(
                     $.util.colors.red(err.filename),
-                    $.util.colors.yellow(err.loc.line + ':' + err.loc.column),
                     '\n** \t',
                     msg
                 );
