@@ -19,6 +19,7 @@ function compile(watch) {
                 .transform(babelify, { presets: ['es2015'] } );
 
     function rebundle(bundler) {
+        var t = new Date().toTimeString();
         return bundler.bundle()
             .on('error', function(err) {
                 var msg = err.message.replace(new RegExp(err.filename + ':', 'g'), '');
@@ -33,7 +34,7 @@ function compile(watch) {
                 );
                 this.emit('end');
             })
-            .pipe($.duration('Building'))
+            .pipe($.duration(t + 'Building'))
             .pipe(source('main.js'))
             .pipe(buffer())
             .pipe($.sourcemaps.init({ loadMaps: true }))
