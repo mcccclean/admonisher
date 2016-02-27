@@ -20,6 +20,7 @@ function compile(watch) {
 
     function rebundle(bundler) {
         var t = new Date().toTimeString();
+        $.util.log('Build started');
         return bundler.bundle()
             .on('error', function(err) {
                 var msg = err.message.replace(new RegExp(err.filename + ':', 'g'), '');
@@ -34,7 +35,7 @@ function compile(watch) {
                 );
                 this.emit('end');
             })
-            .pipe($.duration(t + 'Building'))
+            .pipe($.duration(t + ' Building'))
             .pipe(source('main.js'))
             .pipe(buffer())
             .pipe($.sourcemaps.init({ loadMaps: true }))
@@ -94,6 +95,6 @@ gulp.task('deploy', ['build'], function() {
         }));
 });
 
-gulp.task('live', ['watch', 'serve'], function() {});
+gulp.task('develop', ['watch', 'serve'], function() {});
 
 gulp.task('default', ['build'], function() { });
