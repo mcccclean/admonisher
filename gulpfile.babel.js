@@ -75,11 +75,15 @@ gulp.task('watch', function(done) {
     compile(true);
 });
 
-gulp.task('build', ['scripts', 'templates'], function() {
+gulp.task('build-noscript', ['templates'], function() {
 
 });
 
-gulp.task('serve', ['default'], function(done) {
+gulp.task('build', ['scripts', 'build-noscript'], function() {
+
+});
+
+gulp.task('serve', function(done) {
     var app = express();
     app.use(express.static('dist'));
     var port = 3000;
@@ -95,6 +99,6 @@ gulp.task('deploy', ['build'], function() {
         }));
 });
 
-gulp.task('develop', ['watch', 'serve'], function() {});
+gulp.task('develop', ['watch', 'build-noscript', 'serve'], function() {});
 
 gulp.task('default', ['build'], function() { });
